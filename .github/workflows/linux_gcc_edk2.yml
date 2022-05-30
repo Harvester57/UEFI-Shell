@@ -17,6 +17,7 @@ env:
   EDK2_SHELL_VERSION_HEADER: edk2/MdePkg/Include/Protocol/Shell.h
   # Was edk2/ShellPkg/Include/Protocol/EfiShell.h prior to 2016.10.18 
   # enum ShellVersion added on 2009.05.11
+  NASM_VERSION: 2.15.05
 
 jobs:
   build:
@@ -25,7 +26,17 @@ jobs:
     steps:
     - name: Install toolchains
       run: |
-        sudo apt install python3-distutils nasm uuid-dev gcc-9-multilib genisoimage
+        sudo apt install python3-distutils uuid-dev gcc-9-multilib genisoimage
+    - name: Install nasm ${{ env.NASM_VERSION }}
+      # https://edk2.groups.io/g/devel/topic/89637409#87359
+      run: |
+        curl -O https://www.nasm.us/pub/nasm/releasebuilds/${{ env.NASM_VERSION }}/nasm-${{ env.NASM_VERSION }}.tar.bz2
+        tar -xjf nasm-${{ env.NASM_VERSION }}.tar.bz2
+        cd nasm-${{ env.NASM_VERSION }}
+        ./autogen.sh
+        ./configure --prefix=/usr/local/ 
+        make 
+        sudo make install
     - name: Checkout repository and submodules
       uses: actions/checkout@v3
       with:
