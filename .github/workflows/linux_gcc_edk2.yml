@@ -4,6 +4,10 @@ on:
   push:
     tags:
       - '*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 env:
   COMPILER: GCC5
