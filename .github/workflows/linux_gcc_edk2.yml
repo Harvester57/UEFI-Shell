@@ -22,14 +22,24 @@ env:
   # Was edk2/ShellPkg/Include/Protocol/EfiShell.h prior to 2016.10.18 
   # enum ShellVersion added on 2009.05.11
 
+permissions:
+  contents: read
+
 jobs:
   build:
+    permissions:
+      contents: write  # for softprops/action-gh-release to create GitHub release
     runs-on: ubuntu-latest
 
     steps:
+    - name: Harden the runner (Audit all outbound calls)
+      uses: step-security/harden-runner@6c439dc8bdf85cadbbce9ed30d1c7b959517bc49 # v2.12.2
+      with:
+        egress-policy: audit
+
     - name: Checkout repository and submodules
       # Must happen first, else the LoongArch toolchain gets deleted (even with clean: false)
-      uses: actions/checkout@v4
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       with:
         # Need fetch-depth: 0 to obtain the EDK2 stable tag
         fetch-depth: 0
@@ -83,7 +93,7 @@ jobs:
         fi
 
     - name: Download the latest Mosby release
-      uses: robinraju/release-downloader@v1
+      uses: robinraju/release-downloader@daf26c55d821e836577a15f77d86ddc078948b05 # v1.12
       with:
         repository: pbatard/Mosby
         latest: true
@@ -154,7 +164,7 @@ jobs:
         sha256sum *.efi
 
     - name: Upload ISO artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
       with:
         name: ISOs
         path: ./*.iso
@@ -173,7 +183,7 @@ jobs:
         printf "\`\`\`\n" >> body.txt
 
     - name: Create release
-      uses: softprops/action-gh-release@v2
+      uses: step-security/action-gh-release@2677a32b1ab8b24324ede3be9da4e1d8c3f686ee # v2.3.2
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         body_path: ./body.txt
