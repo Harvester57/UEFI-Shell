@@ -4,14 +4,12 @@ updates:
   directory: "/"
   commit-message:
     prefix: "actions"
-  reviewers:
-  - "Harvester57"
   assignees:
   - "Harvester57"
   schedule:
     # Check for updates to GitHub Actions every weekday
     interval: "cron"
-    cronjob: "0 18 * * *"
+    cronjob: "0 7 * * *"
     timezone: "Europe/Paris"
   groups:
     # Specify a name for the group, which will be used in pull request titles
