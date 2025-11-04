@@ -183,7 +183,7 @@ jobs:
         printf "\`\`\`\n" >> body.txt
 
     - name: Create release
-      uses: step-security/action-gh-release@09690439e3dd315bab5923ce1c679f84ea219390 # v2.3.4
+      uses: step-security/action-gh-release@674f8f866246c6b91bd3f1688ba95e27b2ae8d2e # v2.4.1
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         body_path: ./body.txt
