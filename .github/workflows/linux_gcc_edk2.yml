@@ -33,13 +33,13 @@ jobs:
 
     steps:
     - name: Harden the runner (Audit all outbound calls)
-      uses: step-security/harden-runner@df199fb7be9f65074067a9eb93f12bb4c5547cf2 # v2.13.3
+      uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76 # v2.14.0
       with:
         egress-policy: audit
 
     - name: Checkout repository and submodules
       # Must happen first, else the LoongArch toolchain gets deleted (even with clean: false)
-      uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
         # Need fetch-depth: 0 to obtain the EDK2 stable tag
         fetch-depth: 0
@@ -164,7 +164,7 @@ jobs:
         sha256sum *.efi
 
     - name: Upload ISO artifacts
-      uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+      uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
       with:
         name: ISOs
         path: ./*.iso
@@ -183,7 +183,7 @@ jobs:
         printf "\`\`\`\n" >> body.txt
 
     - name: Create release
-      uses: step-security/action-gh-release@674f8f866246c6b91bd3f1688ba95e27b2ae8d2e # v2.4.1
+      uses: step-security/action-gh-release@d45511d7589f080cf54961ff056b9705a74fd160 # v2.5.0
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         body_path: ./body.txt
